@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>newUser</title>
+</head>
+<body>
+<div>
+    <h1>new User</h1>
+
+        <form action="#" th:action="@{/add}" th:object="${user}" method="post">
+            <table>
+                <tr>
+                <td>NAME:</td>
+                    <td><input type="text" th:field="*{name}"> </td>
+                </tr>
+                <tr>
+                    <td>SURNAME:</td>
+                    <td><input type="text" th:field="*{surname}"> </td>
+                </tr>
+                <tr>
+                    <td>ADRESS:</td>
+                    <td><input type="text" th:field="*{adress}"> </td>
+                </tr>
+                <tr>
+                    <td>LOGIN:</td>
+                    <td><input type="text" th:field="*{login}"> </td>
+                </tr>
+                <tr>
+                    <td>PASSWORD:</td>
+                    <td><input type="text" th:field="*{password}"> </td>
+                </tr>
+                <tr>
+                    <li th:each="role : ${userRoles}">
+                        <label><input th:type="checkbox" th:name="${role}">
+                            <!--                                          th:checked="${#lists.contains(user.roles.toString(), role)} ? 'checked'">-->
+                            <span th:text="${role}"></span> </label>
+                    </li>
+                </tr>
+                <tr>
+                    <td><button type="submit">ADD</button> </td>
+                </tr>
+
+            </table>
+        </form>
+</div>
+</body>
+</html>

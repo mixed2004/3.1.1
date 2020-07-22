@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+</div>
+<form action="/newUser" method="get">
+    <input type="submit" value="ADD">
+</form>
+<table border=1>
+    <tr>
+        <th>id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Adress</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
+    </tr>
+
+    <th:block th:each="user : ${users}">
+        <tr>
+            <td th:text=${user.id}></td>
+            <td th:text=${user.name}></td>
+            <td th:text=${user.surname}></td>
+            <td th:text=${user.adress}></td>
+            <td th:text=${user.login}></td>
+            <td th:text=${user.password}></td>
+            <td>
+                <li th:each="role : ${user.roles}" th:text="${role.roleName}"></li>
+            </td>
+            <form action="/editUser" method="get">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <input type="hidden" name="name" th:value="${user.name}">
+                <input type="hidden" name="surname" th:value="${user.surname}">
+                <input type="hidden" name="login" th:value="${user.login}">
+                <input type="hidden" name="password" th:value="${user.password}">
+                <input type="hidden" name="adress" th:value="${user.adress}">
+                <td>
+                    <button type=“submit”>UPDATE</button>
+                </td>
+            </form>
+            <form action="/deleteUser" method="post">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <input type="hidden" name="name" th:value="${user.name}">
+                <input type="hidden" name="surname" th:value="${user.surname}">
+                <input type="hidden" name="login" th:value="${user.login}">
+                <input type="hidden" name="password" th:value="${user.password}">
+                <input type="hidden" name="adress" th:value="${user.adress}">
+<!--                <input type="hidden" name="roles" th:value="${user.roles}">-->
+                <td>
+                    <button type=“submit”>DELETE</button>
+                </td>
+            </form>
+        </tr>
+    </th:block>
+</table>
+<a href="/logout">logout</a>
+</body>
+</html>
