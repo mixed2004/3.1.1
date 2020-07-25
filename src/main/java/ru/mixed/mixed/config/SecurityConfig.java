@@ -18,7 +18,7 @@ import ru.mixed.mixed.config.handler.LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Qualifier("UserServiceImp")
