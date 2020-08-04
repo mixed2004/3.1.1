@@ -1,8 +1,10 @@
 package ru.mixed.mixed.controller;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,13 +14,15 @@ import ru.mixed.mixed.service.RoleService;
 import ru.mixed.mixed.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
-@Controller
-public class UserController {
+@RestController
+public class UserRestController {
     @Autowired
     private  UserService userService;
     @Autowired
     private  RoleService roleService;
+    private Gson gson = new Gson();
 
 //    @Autowired
 //    public UserController(UserService userService, RoleService roleService) {
@@ -29,24 +33,29 @@ public class UserController {
     @Autowired
        private PasswordEncoder passwordEncoder;
 
-    @GetMapping(value = "/admin")
-    public String userList(Model model, Authentication authentication) {
-        User autorityUser = (User) authentication.getPrincipal();
+    @GetMapping(value = "/rest/admin")
+    public ResponseEntity<List<User>> userList() {
+//        User autorityUser = (User) authentication.getPrincipal();
         List<User> users = userService.listUsers();
 
-        model.addAttribute("new_user", new User());
-        model.addAttribute("edit_user", new User());
-        model.addAttribute("users", users);
-        model.addAttribute("autorityUser", autorityUser);
-        model.addAttribute("userRoles", roleService.getRoleNamesToList());
-        return "admin";
+//        model.addAttribute("new_user", new User());
+//        model.addAttribute("edit_user", new User());
+//        model.addAttribute("users", users);
+//        model.addAttribute("autorityUser", autorityUser);
+//        model.addAttribute("userRoles", roleService.getRoleNamesToList());
+        return (users == null)? new ResponseEntity<>(HttpStatus.NOT_FOUND):new ResponseEntity<>(users, HttpStatus.OK);
     }
+//    @GetMapping(value = "/admin")
+//    public String userList() {
+//        List<User> users = userService.listUsers();
+//        return gson.toJson(users);
+//    }
 
-    @GetMapping(value = "/login")
-    public String loginPage() {
-        return "login";
-    }
-
+//    @GetMapping(value = "/login")
+//    public ResponseEntity<?> loginPage() {
+//        return "login";
+//    }
+//
 //    @GetMapping(value = "/newUser")
 //    public String getAddUserForm(Model model) {
 //        User user = new User();

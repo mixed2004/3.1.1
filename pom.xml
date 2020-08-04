@@ -82,7 +82,32 @@
 			<artifactId>hibernate-validator-annotation-processor</artifactId>
 			<version>6.1.5.Final</version>
 		</dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jqueryui-layout</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>4.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap-datepicker</artifactId>
+            <version>1.7.1</version>
+        </dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>
