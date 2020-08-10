@@ -105,10 +105,10 @@ public class UserController {
 //        return "redirect:/admin";
 //    }
 //
-//    @GetMapping(value = "/user")
-//    public String getUser(Authentication authentication, Model model) {
-//        User autorityUser = (User) authentication.getPrincipal();
-//        model.addAttribute("autorityUser", autorityUser);
-//        return "user";
-//    }
+    @GetMapping(value = "/user")
+    public String getUser(Authentication authentication, Model model) {
+        User autorityUser = (User) authentication.getPrincipal();
+        model.addAttribute("autorityUser", autorityUser);
+        return "user";
+    }
 }

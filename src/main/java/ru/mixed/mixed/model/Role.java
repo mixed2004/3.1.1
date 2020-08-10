@@ -1,6 +1,8 @@
 package ru.mixed.mixed.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,11 +18,23 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder({
+        "id",
+        "roleName"
+})
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private long id;
+    @JsonProperty("roleName")
     private String roleName;
+
+    public Role(){}
+
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
 
     @Override
     public String getAuthority() {

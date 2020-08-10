@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository("UserServiceImp")
 @Transactional
-public class UserServiceImp implements UserService, UserDetailsService {
+public class UserServiceImp implements UserService {
     @Autowired
     private UserDao userDao;
 

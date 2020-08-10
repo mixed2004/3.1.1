@@ -9,6 +9,8 @@
                 list-style-type: none;
             }
         </style>
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--        <script src="user.js"></script>-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
               crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
@@ -51,22 +53,17 @@
                             <th scope="col">Role</th>
                         </tr>
                         </thead>
-                        <tr>
-                            <td th:text="${autorityUser.id}"></td>
-                            <td th:text="${autorityUser.name}"></td>
-                            <td th:text="${autorityUser.surname}"></td>
-                            <td th:text="${autorityUser.adress}"></td>
-                            <td th:text="${autorityUser.login}"></td>
-                            <td th:text="${autorityUser.password}"></td>
-                            <td>
-                                <span th:each="role : ${autorityUser.roles}" th:text="${role.roleName} + ' '"></span>
-                            </td>
+                     <tbody id="authorityUser">
+
+                     </tbody>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="user.js"></script>
     </body>
 </div>
 </html>
