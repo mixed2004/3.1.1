@@ -46,7 +46,7 @@ public class UserRestController {
 
     @PostMapping(value = "/admin")
     public ResponseEntity addUser(@RequestBody UserDTO user) {
-        User resultUser = new User(user.getName(), user.getAdress(), user.getSurname(), user.getLogin(), user.getPassword());
+        User resultUser = new User(user.getName(), user.getAdress(), user.getSurname(), user.getLogin(), passwordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
         for (String roleFromDTO: user.getRolesString()) {
             roles.add(roleService.getRoleByRoleName(roleFromDTO));
@@ -57,8 +57,22 @@ public class UserRestController {
     }
 
     @PutMapping(value = "/admin")
-    public ResponseEntity editUser(@RequestBody User user) {
-        userService.update(user);
+    public ResponseEntity editUser(@RequestBody UserDTO user) {
+        User resultUser = userService.getUserById(user.getId());
+       resultUser.setName(user.getName());
+       resultUser.setSurname(user.getSurname());
+       resultUser.setAdress(user.getAdress());
+       resultUser.setLogin(user.getLogin());
+       if (!user.getPassword().isEmpty()){
+           resultUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+       }
+        Set<Role> roles = new HashSet<>();
+        for (String roleFromDTO: user.getRolesString()) {
+            roles.add(roleService.getRoleByRoleName(roleFromDTO));
+        }
+        resultUser.setRoles(roles);
+        userService.update(resultUser);
         return new ResponseEntity(HttpStatus.OK);
     }
 
