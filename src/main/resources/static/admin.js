@@ -1,9 +1,10 @@
-$(document).ready(getAllUsersRestAndPrint())
+$(document).ready(getAllUsersRestAndPrint());
 
 async function getAllUsersRestAndPrint() {
     let response = await fetch("/rest/admin");
     let content = await response.json();
     let listUsers = document.getElementById('allUsersList');
+    $(listUsers).empty();
     let user = '';
     let key;
     let keyRole;
@@ -24,7 +25,7 @@ async function getAllUsersRestAndPrint() {
              ${content[key].roles[keyRole].roleName + " "}
             `;
         }
-        user +=` </span>
+        user += ` </span>
              </td>
              <td>
                 <button type="button" class="btn btn-info" data-toggle="modal"
@@ -37,12 +38,16 @@ async function getAllUsersRestAndPrint() {
                 </button>
             </td>
              </tr>`;
-       $(listUsers).append(user);
+        $(listUsers).append(user);
     }
-        response = await fetch("/rest/user");
-        content = await response.json();
-        let userJson = document.getElementById('authorityUser');
-        user =`
+}
+
+async function fillUserPage(){
+    response = await fetch("/rest/user");
+    content = await response.json();
+    let userJson = document.getElementById('authorityUser');
+    $(userJson).empty();
+    user =`
             <tr>
             <td>${content.id}</td>
             <td>${content.name}</td>
@@ -52,12 +57,12 @@ async function getAllUsersRestAndPrint() {
             <td>${content.password}</td>
             <td>
             <span>`;
-        for (keyRole in content.roles) {
-            user += `
+    for (keyRole in content.roles) {
+        user += `
              ${content.roles[keyRole].roleName + " "}
             `;
-        }
-        user +=` </span>
+    }
+    user +=` </span>
              </td>
              </tr>
                  `;
@@ -83,44 +88,12 @@ async function clickAddNewUser() {
         }),
         headers: {"Content-Type": "application/json; charset=utf-8"}
     });
-    let response = await fetch("/rest/admin/userThatWasAdd",{
-        method: "POST",
-        body: String(newUserLogin),
-        headers: {"Content-Type": "application/json; charset=utf-8"}
-    });
-    let content = await response.json();
-    let keyRole;
-    console.log(content);
-    let userJson = document.getElementById('allUsersList');
-    user =`
-        <tr class=${content.id}>
-        <td>${content.id}</td>
-        <td>${content.name}</td>
-        <td>${content.surname}</td>
-        <td>${content.adress}</td>
-        <td>${content.login}</td>
-        <td>${content.password}</td>
-        <td>
-        <span>`;
-    for (keyRole in content.roles) {
-        user += `
-             ${content.roles[keyRole].roleName + " "}
-            `;
-    }
-    user +=` </span>
-             </td>
-             <td>
-                <button type="button" class="btn btn-info" data-toggle="modal"
-                    data-target="#EditModal" onclick="clickFillEditModalForm(${content.id})">EDIT
-                </button>
-                </td>
-            <td>
-                <button type=“button” class="btn btn-danger" data-toggle="modal"
-                    data-target="#DeleteModal" onclick="clickFillDeleteModalForm(${content.id})">DELETE
-                </button>
-            </td>
-             </tr>`;
-    $(userJson).append(user);
+
+    await getAllUsersRestAndPrint();
+    $('#home-tab').addClass('active');
+    $('#users_table').addClass('active show');
+    $('#profile-tab').removeClass('active');
+    $('#new_user').removeClass('active show');
 }
 
 async function clickFillDeleteModalForm(id) {
@@ -152,15 +125,13 @@ async function clearUserRolesFromForm() {
 
 async function deleteUserFromForm() {
     let userIdForDelete = $("#deleteIdModalForm").val();
-    const userRowForDelete = String(userIdForDelete);
     await fetch("rest/admin",{
         method: "DELETE",
         body: userIdForDelete,
         headers: {"Content-Type": "application/json; charset=utf-8"}
     });
     await clearUserRolesFromForm();
-    let del = await document.getElementsByClassName(userRowForDelete);
-    $(del).empty();
+    await getAllUsersRestAndPrint();
 }
 
 async function clickFillEditModalForm(id) {
@@ -179,9 +150,6 @@ async function clickFillEditModalForm(id) {
 }
 
 async function editUserFromForm() {
-    let userId = $("#editIdModalForm").val();
-    let userIdForEdit = $("#editIdModalForm").val();
-    const userRowForEdit = String(userIdForEdit);
     var checked = [];
     $('input:checkbox:checked').each(function () {
         checked.push($(this).val());
@@ -200,45 +168,5 @@ async function editUserFromForm() {
         }),
         headers: {"Content-Type": "application/json; charset=utf-8"}
     });
-    let edit = await document.getElementsByClassName(userRowForEdit);
-    $(edit).empty();
-    let response = await fetch("/rest/admin/userForFillModalForm", {
-        method: "POST",
-        body: userId,
-        headers: {"Content-Type": "application/json; charset=utf-8"}
-    });
-    let content = await response.json();
-    let keyRole;
-    console.log(content);
-    let userJson = document.getElementById('allUsersList');
-    user = `
-            <tr class=${content.id}>
-            <td>${content.id}</td>
-            <td>${content.name}</td>
-            <td>${content.surname}</td>
-            <td>${content.adress}</td>
-            <td>${content.login}</td>
-            <td>${content.password}</td>
-            <td>
-            <span>`;
-    for (keyRole in content.roles) {
-        user += `
-             ${content.roles[keyRole].roleName + " "}
-            `;
-    }
-    user += ` </span>
-             </td>
-             <td>
-                <button type="button" class="btn btn-info" data-toggle="modal"
-                    data-target="#EditModal" onclick="clickFillEditModalForm(${content.id})">EDIT
-                </button>
-                </td>
-            <td>
-                <button type=“button” class="btn btn-danger" data-toggle="modal"
-                    data-target="#DeleteModal" onclick="clickFillDeleteModalForm(${content.id})">DELETE
-                </button>
-            </td>
-             </tr>
-`;
-    $(userJson).append(user);
+    await getAllUsersRestAndPrint();
 }

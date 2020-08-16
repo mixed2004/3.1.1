@@ -30,7 +30,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public List<User> listUsers() {
         return entityManager
-                .createQuery("from User")
+                .createQuery("from User order by id")
                 .getResultList();
     }
 
